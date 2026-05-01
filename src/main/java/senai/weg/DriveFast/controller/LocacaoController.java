@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import senai.weg.DriveFast.dto.MensagemDTO;
-import senai.weg.DriveFast.dto.locacao.LocacaoRequest;
-import senai.weg.DriveFast.dto.locacao.LocacaoResponse;
+import senai.weg.DriveFast.dto.locacao.LocacaoCreateDTO;
+import senai.weg.DriveFast.dto.locacao.LocacaoResponseDTO;
 import senai.weg.DriveFast.service.LocacaoService;
 
 @RestController
@@ -26,26 +26,26 @@ public class LocacaoController {
     private final LocacaoService locacaoService;
 
     @PostMapping
-    public ResponseEntity<LocacaoResponse> realizarLocacao(@RequestBody LocacaoRequest dto) {
-        LocacaoResponse response = locacaoService.salvar(dto);
+    public ResponseEntity<LocacaoResponseDTO> create(@RequestBody LocacaoCreateDTO dto) {
+        LocacaoResponseDTO response = locacaoService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<LocacaoResponse>> listar() {
-        List<LocacaoResponse> response = locacaoService.listarTodas();
+    public ResponseEntity<List<LocacaoResponseDTO>> listAll() {
+        List<LocacaoResponseDTO> response = locacaoService.listAll();
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MensagemDTO> devolverVeiculo(@PathVariable Long id) {
-        locacaoService.encerrarLocacao(id);
+    public ResponseEntity<MensagemDTO> returnVehicle(@PathVariable Long id) {
+        locacaoService.endRental(id);
         return ResponseEntity.ok(new MensagemDTO("Veiculo devolvido e locacao encerrada!"));
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public ResponseEntity<List<LocacaoResponse>> listarPorCliente(@PathVariable Long clienteId) {
-        List<LocacaoResponse> response = locacaoService.listarPorCliente(clienteId);
+    public ResponseEntity<List<LocacaoResponseDTO>> listByClient(@PathVariable Long clienteId) {
+        List<LocacaoResponseDTO> response = locacaoService.listByClient(clienteId);
         return ResponseEntity.ok(response);
     }
 }

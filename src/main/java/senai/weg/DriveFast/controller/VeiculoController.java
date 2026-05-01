@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import senai.weg.DriveFast.dto.MensagemDTO;
-import senai.weg.DriveFast.dto.veiculo.VeiculoRequest;
-import senai.weg.DriveFast.dto.veiculo.VeiculoResponse;
+import senai.weg.DriveFast.dto.veiculo.VeiculoCreateDTO;
+import senai.weg.DriveFast.dto.veiculo.VeiculoResponseDTO;
+import senai.weg.DriveFast.dto.veiculo.VeiculoUpdateDTO;
 import senai.weg.DriveFast.service.VeiculoService;
 
 @RestController
@@ -27,38 +28,38 @@ public class VeiculoController {
     private final VeiculoService veiculoService;
 
     @PostMapping
-    public ResponseEntity<VeiculoResponse> cadastrar(@RequestBody VeiculoRequest dto) {
-        VeiculoResponse response = veiculoService.create(dto);
+    public ResponseEntity<VeiculoResponseDTO> create(@RequestBody VeiculoCreateDTO dto) {
+        VeiculoResponseDTO response = veiculoService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<VeiculoResponse>> listar() {
-        List<VeiculoResponse> response = veiculoService.listarTodos();
+    public ResponseEntity<List<VeiculoResponseDTO>> listAll() {
+        List<VeiculoResponseDTO> response = veiculoService.listAll();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VeiculoResponse> buscarPorId(@PathVariable Long id) {
-        VeiculoResponse response = veiculoService.buscarPorId(id);
+    public ResponseEntity<VeiculoResponseDTO> findById(@PathVariable Long id) {
+        VeiculoResponseDTO response = veiculoService.findById(id);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VeiculoResponse> atualizar(@PathVariable Long id, @RequestBody VeiculoRequest dto) {
-        VeiculoResponse response = veiculoService.atualizar(id, dto);
+    public ResponseEntity<VeiculoResponseDTO> update(@PathVariable Long id, @RequestBody VeiculoUpdateDTO dto) {
+        VeiculoResponseDTO response = veiculoService.update(id, dto);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MensagemDTO> remover(@PathVariable Long id) {
-        veiculoService.remover(id);
+    public ResponseEntity<MensagemDTO> delete(@PathVariable Long id) {
+        veiculoService.delete(id);
         return ResponseEntity.ok(new MensagemDTO("Veiculo removido com sucesso!"));
     }
 
     @GetMapping("/disponiveis")
-    public ResponseEntity<List<VeiculoResponse>> listarDisponiveis() {
-        List<VeiculoResponse> response = veiculoService.listarDisponiveis();
+    public ResponseEntity<List<VeiculoResponseDTO>> listAvailable() {
+        List<VeiculoResponseDTO> response = veiculoService.listAvailable();
         return ResponseEntity.ok(response);
     }
 }

@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import senai.weg.DriveFast.dto.veiculo.VeiculoRequest;
-import senai.weg.DriveFast.dto.veiculo.VeiculoResponse;
+import senai.weg.DriveFast.dto.veiculo.VeiculoCreateDTO;
+import senai.weg.DriveFast.dto.veiculo.VeiculoResponseDTO;
+import senai.weg.DriveFast.dto.veiculo.VeiculoUpdateDTO;
 import senai.weg.DriveFast.repository.VeiculoRepository;
 
 @Service
@@ -15,26 +16,26 @@ public class VeiculoService {
 
     private final VeiculoRepository veiculoRepository;
 
-    public VeiculoResponse create(VeiculoRequest dto) {
+    public VeiculoResponseDTO create(VeiculoCreateDTO dto) {
         return null;
     }
 
-    public List<VeiculoResponse> listarTodos() {
+    public List<VeiculoResponseDTO> listAll() {
         return null;
     }
 
-    public VeiculoResponse buscarPorId(Long id) {
+    public VeiculoResponseDTO findById(Long id) {
         return null;
     }
 
-    public VeiculoResponse atualizar(Long id, VeiculoRequest dto) {
+    public VeiculoResponseDTO update(Long id, VeiculoUpdateDTO dto) {
         return null;
     }
 
-    public void remover(Long id) {
+    public void delete(Long id) {
     }
 
-    public List<VeiculoResponse> listarDisponiveis() {
+    public List<VeiculoResponseDTO> listAvailable() {
         return null;
     }
 }
