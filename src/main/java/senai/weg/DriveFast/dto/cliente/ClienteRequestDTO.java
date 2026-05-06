@@ -1,6 +1,6 @@
 package senai.weg.DriveFast.dto.cliente;
 
-public record ClienteCreateDTO(
+public record ClienteRequestDTO(
         String nome,
         String cnh,
         String email

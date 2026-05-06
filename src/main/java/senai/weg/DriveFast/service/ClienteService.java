@@ -1,13 +1,15 @@
 package senai.weg.DriveFast.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import senai.weg.DriveFast.dto.cliente.ClienteCreateDTO;
+import senai.weg.DriveFast.dto.cliente.ClienteRequestDTO;
 import senai.weg.DriveFast.dto.cliente.ClienteResponseDTO;
-import senai.weg.DriveFast.dto.cliente.ClienteUpdateDTO;
+import senai.weg.DriveFast.mapper.ClienteMapper;
+import senai.weg.DriveFast.model.Cliente;
 import senai.weg.DriveFast.projection.ClienteGastoProjection;
 import senai.weg.DriveFast.repository.ClienteRepository;
 
@@ -15,25 +17,50 @@ import senai.weg.DriveFast.repository.ClienteRepository;
 @RequiredArgsConstructor
 public class ClienteService {
 
-    private final ClienteRepository clienteRepository;
 
-    public ClienteResponseDTO create(ClienteCreateDTO dto) {
-        return null;
+    private final ClienteMapper mapper;
+    private final ClienteRepository repository;
+
+    public ClienteResponseDTO create(ClienteRequestDTO clienteRequest){
+        Cliente cliente = mapper.toEntity(clienteRequest);
+        Cliente clienteSaCliente = repository.save(cliente);
+        ClienteResponseDTO clienteResponse = mapper.toResponseDTO(clienteSaCliente);
+
+        return clienteResponse;
     }
 
-    public List<ClienteResponseDTO> listAll() {
-        return null;
+    public ClienteResponseDTO listById(long id){
+        Cliente cliente = repository.findById(id).orElseThrow(() -> new RuntimeException("não tem um cliente com este id "));
+        ClienteResponseDTO clienteResponse = mapper.toResponseDTO(cliente);
+
+        return clienteResponse;
     }
 
-    public ClienteResponseDTO findById(Long id) {
-        return null;
+    public List<ClienteResponseDTO> listAll(){
+        List<Cliente> clientes = repository.findAll();
+        List<ClienteResponseDTO> dto = new ArrayList<>();
+
+        for(Cliente c: clientes){
+            dto.add(mapper.toResponseDTO(c));
+        }
+
+        return dto;
     }
 
-    public ClienteResponseDTO update(Long id, ClienteUpdateDTO dto) {
-        return null;
+    public ClienteResponseDTO update(long id, ClienteRequestDTO clienteRequest){
+        Cliente cliente = repository.findById(id).orElseThrow(() -> new RuntimeException("não tem um cliente com este id "));
+        cliente.setNome(clienteRequest.nome());
+        cliente.setCnh(clienteRequest.cnh());
+        cliente.setEmail(clienteRequest.email());
+        Cliente clienteSalvo = repository.save(cliente);
+        ClienteResponseDTO clienteResponse = mapper.toResponseDTO(clienteSalvo);
+
+        return clienteResponse;
     }
 
-    public void delete(Long id) {
+    public String delete(long id){
+        repository.deleteById(id);
+        return "Deletado!";
     }
 
     public List<ClienteGastoProjection> expenseReport() {

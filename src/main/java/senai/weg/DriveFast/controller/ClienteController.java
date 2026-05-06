@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import senai.weg.DriveFast.dto.MensagemDTO;
-import senai.weg.DriveFast.dto.cliente.ClienteCreateDTO;
+import senai.weg.DriveFast.dto.cliente.ClienteRequestDTO;
 import senai.weg.DriveFast.dto.cliente.ClienteResponseDTO;
 import senai.weg.DriveFast.dto.cliente.ClienteUpdateDTO;
 import senai.weg.DriveFast.projection.ClienteGastoProjection;
@@ -29,7 +29,7 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<ClienteResponseDTO> create(@RequestBody ClienteCreateDTO dto) {
+    public ResponseEntity<ClienteResponseDTO> create(@RequestBody ClienteRequestDTO dto) {
         ClienteResponseDTO response = clienteService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

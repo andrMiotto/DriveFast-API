@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import senai.weg.DriveFast.dto.MensagemDTO;
-import senai.weg.DriveFast.dto.veiculo.VeiculoCreateDTO;
+import senai.weg.DriveFast.dto.veiculo.VeiculoRequestDTO;
 import senai.weg.DriveFast.dto.veiculo.VeiculoResponseDTO;
 import senai.weg.DriveFast.dto.veiculo.VeiculoUpdateDTO;
 import senai.weg.DriveFast.service.VeiculoService;
@@ -28,7 +28,7 @@ public class VeiculoController {
     private final VeiculoService veiculoService;
 
     @PostMapping
-    public ResponseEntity<VeiculoResponseDTO> create(@RequestBody VeiculoCreateDTO dto) {
+    public ResponseEntity<VeiculoResponseDTO> create(@RequestBody VeiculoRequestDTO dto) {
         VeiculoResponseDTO response = veiculoService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
