@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import senai.weg.DriveFast.dto.cliente.ClienteRequestDTO;
 import senai.weg.DriveFast.dto.cliente.ClienteResponseDTO;
+import senai.weg.DriveFast.dto.cliente.ClienteUpdateDTO;
 import senai.weg.DriveFast.mapper.ClienteMapper;
 import senai.weg.DriveFast.model.Cliente;
 import senai.weg.DriveFast.projection.ClienteGastoProjection;
@@ -29,7 +30,7 @@ public class ClienteService {
         return clienteResponse;
     }
 
-    public ClienteResponseDTO listById(long id){
+    public ClienteResponseDTO findById(long id){
         Cliente cliente = repository.findById(id).orElseThrow(() -> new RuntimeException("não tem um cliente com este id "));
         ClienteResponseDTO clienteResponse = mapper.toResponseDTO(cliente);
 
@@ -47,10 +48,9 @@ public class ClienteService {
         return dto;
     }
 
-    public ClienteResponseDTO update(long id, ClienteRequestDTO clienteRequest){
+    public ClienteResponseDTO update(long id, ClienteUpdateDTO clienteRequest){
         Cliente cliente = repository.findById(id).orElseThrow(() -> new RuntimeException("não tem um cliente com este id "));
         cliente.setNome(clienteRequest.nome());
-        cliente.setCnh(clienteRequest.cnh());
         cliente.setEmail(clienteRequest.email());
         Cliente clienteSalvo = repository.save(cliente);
         ClienteResponseDTO clienteResponse = mapper.toResponseDTO(clienteSalvo);
@@ -64,6 +64,6 @@ public class ClienteService {
     }
 
     public List<ClienteGastoProjection> expenseReport() {
-        return null;
+        return repository.buscarRelatorioGastos();
     }
 }

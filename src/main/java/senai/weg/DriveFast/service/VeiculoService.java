@@ -46,11 +46,8 @@ public class VeiculoService {
         return veiculoResponses;
     }
 
-    public VeiculoResponseDTO update(long id, VeiculoRequestDTO veiculoRequest){
+    public VeiculoResponseDTO update(long id, VeiculoUpdateDTO veiculoRequest){
         Veiculo veiculo = repository.findById(id).orElseThrow(() -> new RuntimeException());
-        veiculo.setMarca(veiculoRequest.marca());
-        veiculo.setModelo(veiculoRequest.modelo());
-        veiculo.setPlaca(veiculoRequest.placa());
         veiculo.setValorDiaria(veiculoRequest.valorDiaria());
         Veiculo veiculoSalvo = repository.save(veiculo);
 
@@ -65,6 +62,13 @@ public class VeiculoService {
     }
 
     public List<VeiculoResponseDTO> listAvailable() {
-        return null;
+        List<Veiculo> veiculos = repository.findByDisponivel(true);
+        List<VeiculoResponseDTO> veiculoResponses = new ArrayList<>();
+
+        for(Veiculo v: veiculos){
+            veiculoResponses.add(mapper.toResponseDTO(v));
+        }
+
+        return veiculoResponses;
     }
 }
